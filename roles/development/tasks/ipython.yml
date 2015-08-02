@@ -1,0 +1,33 @@
+---
+- name: apt-get install matplotlib dependency pkg
+  apt: pkg={{ item }} state=installed
+  sudo: yes
+  with_items:
+  - libsqlite3-dev
+  tags: install_ipython
+
+- name: pip install util libraries in 'venv'
+  pip: name={{ item }} state=latest virtualenv={{ venv_home }} virtualenv_command={{ home }}/.pyenv/shims/virtualenv virtualenv_site_packages=no
+  sudo: no
+  with_items:
+  - pyzmq
+  - jinja2
+  - tornado
+  - jsonschema
+  - ipython
+  tags: install_ipython
+
+- name: apt-get install matplotlib dependency pkg
+  apt: pkg={{ item }} state=installed
+  sudo: yes
+  with_items:
+  - libfreetype6-dev
+  - libxft-dev
+  tags: install_matplotlib
+
+- name: pip install util libraries in 'venv'
+  pip: name={{ item }} state=latest virtualenv={{ venv_home }} virtualenv_command={{ home }}/.pyenv/shims/virtualenv virtualenv_site_packages=no
+  sudo: no
+  with_items:
+  - matplotlib
+  tags: install_matplotlib

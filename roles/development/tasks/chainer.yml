@@ -1,0 +1,46 @@
+---
+- name: mkdir downloads dir
+  file: dest={{ home }}/downloads state=directory
+  tags: install_cuda
+
+- name: download cuda
+  get_url: url=http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1404/x86_64/cuda-repo-ubuntu1404_7.0-28_amd64.deb dest={{ home }}/downloads/cuda-repo-ubuntu1404_7.0-28_amd64.deb
+  sudo: no
+  tags: install_cuda
+
+- name: dpkg -i cuda
+  apt: deb={{ home }}/downloads/cuda-repo-ubuntu1404_7.0-28_amd64.deb
+  sudo: yes
+  tags: install_cuda
+
+- name: apt-get updates a server
+  apt: update_cache=yes
+  sudo: yes
+  tags: install_cuda
+
+- name: apt-get install cuda pkg
+  apt: pkg={{ item }} state=installed
+  sudo: yes
+  with_items:
+  - cuda
+  tags: install_cuda
+
+- name: ldconfig cuda
+  command: ldconfig /usr/local/cuda/lib64
+  sudo: yes
+  tags: configure_cuda
+
+- name: pip install chainer dependencies in 'venv'
+  pip: name={{ item }} state=latest virtualenv={{ venv_home }} virtualenv_command={{ home }}/.pyenv/shims/virtualenv virtualenv_site_packages=no
+  sudo: no
+  with_items:
+  - numpy
+  - six
+  tags: install_chainer
+
+- name: pip install chainer
+  pip: name={{ item }} state=latest virtualenv={{ venv_home }} virtualenv_command={{ home }}/.pyenv/shims/virtualenv virtualenv_site_packages=no
+  sudo: no
+  with_items:
+  - chainer
+  tags: install_chainer
