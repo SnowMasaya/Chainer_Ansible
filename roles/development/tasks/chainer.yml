@@ -42,5 +42,27 @@
   pip: name={{ item }} state=latest virtualenv={{ venv_home }} virtualenv_command={{ home }}/.pyenv/shims/virtualenv virtualenv_site_packages=no
   sudo: no
   with_items:
+  - pycuda
+#  - scikit-cuda
+  - Mako
+  - chainer-cuda-deps  # for GPU
   - chainer
   tags: install_chainer
+
+- name: apt-get install scipy dependency pkg
+  apt: pkg={{ item }} state=installed
+  sudo: yes
+  with_items:
+  - libblas-dev
+  - liblapack-dev
+  tags: install_chainer
+
+- name: pip install chainer-sample
+  pip: name={{ item }} state=latest virtualenv={{ venv_home }} virtualenv_command={{ home }}/.pyenv/shims/virtualenv virtualenv_site_packages=no
+  sudo: no
+  with_items:
+  - scikit-learn
+  - scipy
+  tags: install_chainer
+
+# - name: git clone chainer

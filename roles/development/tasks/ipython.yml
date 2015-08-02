@@ -14,11 +14,15 @@
   - matplotlib
   tags: install_matplotlib
 
-- name: apt-get install matplotlib dependency pkg
+- name: apt-get install ipython dependency pkg
   apt: pkg={{ item }} state=installed
   sudo: yes
   with_items:
   - libsqlite3-dev
+  - libncurses5-dev
+  - cmake
+  - qt4-default
+  - libxslt-dev
   tags: install_ipython
 
 - name: pip install util libraries in 'venv'
@@ -26,10 +30,14 @@
   sudo: no
   with_items:
   - pyzmq
+  - pyside
+  - qtconsole
   - jinja2
   - tornado
   - jsonschema
+  - readline
   - ipython
+  - ipython[notebook]
   tags: install_ipython
 
 - name: checking notebooks port
