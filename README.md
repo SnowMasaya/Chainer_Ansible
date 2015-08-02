@@ -20,13 +20,10 @@ See http://docs.ansible.com/intro_installation.html
 ### SSH setting on local client
 
 1. copy hosts from hosts.sample
-
 ```
 $ cp hosts.sample hosts
 ```
-
 2. edit hosts to ssh target server
-
 ```
 $ vim hosts
 ```
