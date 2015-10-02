@@ -1,6 +1,0 @@
----
-- include: common.yml
-- include: python.yml
-- include: GPU.yml
-- include: chainer.yml
-- include: ipython.yml
