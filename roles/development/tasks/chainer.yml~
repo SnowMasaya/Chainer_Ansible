@@ -89,7 +89,7 @@
   - liblapack-dev
   tags: install_chainer
 
-- name: pip install scikit-learn 
+- name: pip install chainer-sample
   pip: name={{ item }} state=latest virtualenv={{ venv_home }} virtualenv_command={{ home }}/.pyenv/shims/virtualenv virtualenv_site_packages=no
   sudo: no
   with_items:

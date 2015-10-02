@@ -38,7 +38,7 @@
 
 - name: updating ipython configuration
   lineinfile: >
-    dest="{{ home }}/.ipython/profile_{{ ipython_notebook_profile }}/ipython_config.py"
+    dest="{{ home }}/.ipython/profile_{{ ipython_notebook_profile }}/ipython_notebook_config.py"
     state=present
     backrefs=yes
     regexp="{{ item.regexp }}"
