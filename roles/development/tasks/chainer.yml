@@ -1,18 +1,39 @@
 ---
-#- name: mkdir downloads dir
-#  file: dest={{ home }}/downloads state=directory
-#  tags: install_cuda
+- name: mkdir downloads dir
+  file: dest={{ home }}/downloads state=directory
+  tags: install_cuda
 
-#- name: download cuda
-#  get_url: url=http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1404/x86_64/cuda-repo-ubuntu1404_7.0-28_amd64.deb dest={{ home }}/downloads/cuda-repo-ubuntu1404_7.0-28_amd64.deb
-#  sudo: no
-#  tags: install_cuda
+- name: download cuda
+  get_url: url=http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1404/x86_64/cuda-repo-ubuntu1404_7.0-28_amd64.deb dest={{ home }}/downloads/cuda-repo-ubuntu1404_7.0-28_amd64.deb
+  sudo: no
+  tags: install_cuda
 
-#- name: dpkg -i cuda
-#  apt: deb={{ home }}/downloads/cuda-repo-ubuntu1404_7.0-28_amd64.deb
-#  sudo: yes
-#  tags: install_cuda
+- name: dpkg -i cuda
+  apt: deb={{ home }}/downloads/cuda-repo-ubuntu1404_7.0-28_amd64.deb
+  sudo: yes
+  tags: install_cuda
 
+- name: cuda install 
+  shell: apt-get update  
+  sudo: yes
+  tags: cuda_install
+
+- name: cuda install2 
+  shell: apt-get install cuda  
+  sudo: yes
+  tags: cuda_install
+
+- name: cuda install3 
+  shell: export PATH=/usr/local/cuda-7.0/bin:$PATH && export LD_LIBRARY_PATH=/usr/local/cuda-7.0/lib64:$LD_LIBRARY_PATH 
+  sudo: yes
+  tags: cuda_install
+
+- name: install cuda 
+  shell: source /home/ubuntu/.bashrc && sudo init 6 
+  sudo: yes
+  tags: cuda_process
+  args:
+     executable: /bin/bash
 
 - name: pip install chainer dependencies in 'venv'
   pip: name={{ item }} state=latest virtualenv={{ venv_home }} virtualenv_command={{ home }}/.pyenv/shims/virtualenv virtualenv_site_packages=no
@@ -57,19 +78,19 @@
   args:
      executable: /bin/bash
 
-#- name: install pycuda2 
-#  shell: source /home/ubuntu/.bashrc && python setup.py install chdir={{ home }}/pycuda 
-#  sudo: yes
-#  tags: pycuda_process
-#  args:
-#     executable: /bin/bash
+- name: install pycuda2 
+  shell: source /home/ubuntu/.bashrc && python setup.py install chdir={{ home }}/pycuda 
+  sudo: yes
+  tags: pycuda_process
+  args:
+     executable: /bin/bash
 
-#- name: install pycuda3 
-#  shell: source /home/ubuntu/.bashrc && make install chdir={{ home }}/pycuda 
-#  sudo: yes
-#  tags: pycuda_process
-#  args:
-#     executable: /bin/bash
+- name: install pycuda3 
+  shell: source /home/ubuntu/.bashrc && make install chdir={{ home }}/pycuda 
+  sudo: yes
+  tags: pycuda_process
+  args:
+     executable: /bin/bash
 
 - name: pip install chainer
   pip: name={{ item }} state=latest virtualenv={{ venv_home }} virtualenv_command={{ home }}/.pyenv/shims/virtualenv virtualenv_site_packages=no
