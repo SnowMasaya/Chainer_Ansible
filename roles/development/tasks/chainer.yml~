@@ -25,12 +25,12 @@
   - liblapack-dev
   tags: install_chainer
 
-#- name: pip install scikit-learn 
-#  pip: name={{ item }} state=latest virtualenv={{ venv_home }} virtualenv_command={{ home }}/.pyenv/shims/virtualenv virtualenv_site_packages=no
-#  sudo: no
-#  with_items:
+- name: pip install scikit-learn 
+  pip: name={{ item }} state=latest virtualenv={{ venv_home }} virtualenv_command={{ home }}/.pyenv/shims/virtualenv virtualenv_site_packages=no
+  sudo: no
+  with_items:
 #  - scikit-learn
-#  - scipy
-#  tags: install_chainer
+  - scipy
+  tags: install_chainer
 
 # - name: git clone chainer
