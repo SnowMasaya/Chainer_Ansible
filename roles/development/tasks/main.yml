@@ -4,3 +4,4 @@
 - include: GPU.yml
 - include: chainer.yml
 - include: ipython.yml
+- include: machine_translation.yml
