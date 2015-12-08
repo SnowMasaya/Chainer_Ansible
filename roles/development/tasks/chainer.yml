@@ -1,40 +1,4 @@
 ---
-- name: mkdir downloads dir
-  file: dest={{ home }}/downloads state=directory
-  tags: install_cuda
-
-- name: download cuda
-  get_url: url=http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1404/x86_64/cuda-repo-ubuntu1404_7.0-28_amd64.deb dest={{ home }}/downloads/cuda-repo-ubuntu1404_7.0-28_amd64.deb
-  sudo: no
-  tags: install_cuda
-
-- name: dpkg -i cuda
-  apt: deb={{ home }}/downloads/cuda-repo-ubuntu1404_7.0-28_amd64.deb
-  sudo: yes
-  tags: install_cuda
-
-- name: cuda install 
-  shell: apt-get update  
-  sudo: yes
-  tags: cuda_install
-
-- name: cuda install2 
-  shell: apt-get install cuda  
-  sudo: yes
-  tags: cuda_install
-
-- name: cuda install3 
-  shell: export PATH=/usr/local/cuda-7.0/bin:$PATH && export LD_LIBRARY_PATH=/usr/local/cuda-7.0/lib64:$LD_LIBRARY_PATH 
-  sudo: yes
-  tags: cuda_install
-
-- name: install cuda 
-  shell: source /home/ubuntu/.bashrc && sudo init 6 
-  sudo: yes
-  tags: cuda_process
-  args:
-     executable: /bin/bash
-
 - name: pip install chainer dependencies in 'venv'
   pip: name={{ item }} state=latest virtualenv={{ venv_home }} virtualenv_command={{ home }}/.pyenv/shims/virtualenv virtualenv_site_packages=no
   sudo: no
@@ -42,55 +6,6 @@
   - numpy
   - six
   tags: install_chainer
-
-- name: updating cuda configuration
-  lineinfile: >
-    dest="/home/ubuntu/.bashrc"
-    state=present
-    line="{{ item.line }}"
-  with_items:
-  - line: CUDA_ROOT=/usr/local/cuda-7.0 
-  - line: PATH=$PATH:/usr/local/cuda-7.0/bin 
-  - line: LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda-7.0/lib64:/usr/local/cuda-7.0/lib 
-  - line: CPATH=$CPATH:/usr/local/cuda-7.0/include 
-  - line: CUDA_INC_DIR=/usr/local/cuda-7.0/bin:$CUDA_INC_DIR 
-  tags: configure_bashrc
-
-- name: git clone pycuda 
-  git: repo=http://git.tiker.net/trees/pycuda.git dest={{ home }}/pycuda
-  sudo: no
-  tags: install_pycuda
-
-- name: setup-install
-  shell: wget http://peak.telecommunity.com/dist/ez_setup.py 
-  sudo: yes
-  tags: cuda_install
-
-- name: setup-execute
-  shell: python ez_setup.py 
-  sudo: yes
-  tags: cuda_install
-
-- name: install pycuda 
-  shell: source /home/ubuntu/.bashrc && python configure.py chdir={{ home }}/pycuda 
-  sudo: yes
-  tags: pycuda_process
-  args:
-     executable: /bin/bash
-
-- name: install pycuda2 
-  shell: source /home/ubuntu/.bashrc && python setup.py install chdir={{ home }}/pycuda 
-  sudo: yes
-  tags: pycuda_process
-  args:
-     executable: /bin/bash
-
-- name: install pycuda3 
-  shell: source /home/ubuntu/.bashrc && make install chdir={{ home }}/pycuda 
-  sudo: yes
-  tags: pycuda_process
-  args:
-     executable: /bin/bash
 
 - name: pip install chainer
   pip: name={{ item }} state=latest virtualenv={{ venv_home }} virtualenv_command={{ home }}/.pyenv/shims/virtualenv virtualenv_site_packages=no
@@ -110,12 +25,12 @@
   - liblapack-dev
   tags: install_chainer
 
-- name: pip install scikit-learn 
-  pip: name={{ item }} state=latest virtualenv={{ venv_home }} virtualenv_command={{ home }}/.pyenv/shims/virtualenv virtualenv_site_packages=no
-  sudo: no
-  with_items:
-  - scikit-learn
-  - scipy
-  tags: install_chainer
+#- name: pip install scikit-learn 
+#  pip: name={{ item }} state=latest virtualenv={{ venv_home }} virtualenv_command={{ home }}/.pyenv/shims/virtualenv virtualenv_site_packages=no
+#  sudo: no
+#  with_items:
+#  - scikit-learn
+#  - scipy
+#  tags: install_chainer
 
 # - name: git clone chainer

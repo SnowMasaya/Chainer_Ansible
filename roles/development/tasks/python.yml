@@ -29,3 +29,8 @@
   - pip
   - virtualenv
   tags: global_python_libraries
+
+- name: git clone Chainer-with-hands-on 
+  git: repo=https://github.com/SnowMasaya/Chainer-with-Neural-Networks-Language-model-Hands-on.git dest={{ home }}/Chainer-with-hands-on
+  sudo: no
+  tags: install_chainer_hands_on
