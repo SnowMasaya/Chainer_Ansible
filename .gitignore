@@ -65,3 +65,4 @@ venv/
 # ansible
 hosts
 callback_plugins/
+*~
